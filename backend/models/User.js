@@ -1,41 +1,33 @@
-const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const prisma = require('../lib/prisma');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    trim: true
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
+class User {
+  static async create({ name, email, password }) {
+    const hashedPassword = await bcrypt.hash(password, 12);
+    return await prisma.user.create({
+      data: {
+        name,
+        email: email.toLowerCase(),
+        password: hashedPassword
+      }
+    });
   }
-}, {
-  timestamps: true
-});
 
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
-});
+  static async findByEmail(email) {
+    return await prisma.user.findUnique({
+      where: { email: email.toLowerCase() }
+    });
+  }
 
-userSchema.methods.comparePassword = async function(candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
-};
+  static async findById(id) {
+    return await prisma.user.findUnique({
+      where: { id }
+    });
+  }
 
-module.exports = mongoose.model('User', userSchema);
+  static async comparePassword(candidatePassword, hashedPassword) {
+    return await bcrypt.compare(candidatePassword, hashedPassword);
+  }
+}
+
+module.exports = User;
