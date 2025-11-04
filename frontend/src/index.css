@@ -1,3 +1,196 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+:root {
+  --cream: #EFECE3;
+  --light-blue: #8FABD4;
+  --dark-blue: #4A70A9;
+  --black: #000000;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--cream);
+}
+
+.font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Animations */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.6s ease-out;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Theme Components */
+.theme-card {
+  background-color: var(--cream);
+  border: 2px solid var(--light-blue);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(74, 112, 169, 0.1);
+  transition: all 0.3s ease;
+}
+
+.theme-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(74, 112, 169, 0.15);
+  border-color: var(--dark-blue);
+}
+
+.theme-button {
+  background-color: var(--dark-blue);
+  color: white;
+  border: 2px solid var(--dark-blue);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.theme-button:hover {
+  background-color: var(--light-blue);
+  border-color: var(--light-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 112, 169, 0.3);
+}
+
+.theme-button:focus {
+  box-shadow: 0 0 0 3px rgba(143, 171, 212, 0.4);
+}
+
+.theme-input {
+  background-color: var(--cream);
+  border: 2px solid var(--light-blue);
+  border-radius: 12px;
+  padding: 14px 20px 14px 50px;
+  transition: all 0.3s ease;
+  outline: none;
+  font-size: 16px;
+}
+
+.theme-input:focus {
+  border-color: var(--dark-blue);
+  box-shadow: 0 0 0 4px rgba(143, 171, 212, 0.15);
+  transform: translateY(-1px);
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--light-blue);
+  z-index: 10;
+  transition: color 0.3s ease;
+}
+
+.input-group:focus-within .input-icon {
+  color: var(--dark-blue);
+}
+
+.feature-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-card {
+  background: rgba(239, 236, 227, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(143, 171, 212, 0.3);
+  box-shadow: 0 20px 40px rgba(74, 112, 169, 0.1);
+}
+
+.theme-nav {
+  background-color: rgba(239, 236, 227, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--light-blue);
+}
+
+.theme-gradient {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--dark-blue) 100%);
+}
+
+.theme-outline {
+  outline: 2px solid var(--light-blue);
+  outline-offset: 2px;
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(74, 112, 169, 0.15);
+}
+
+/* Split Layout */
+.form-card {
+  background-color: white;
+  /* border: 2px solid var(--light-blue); */
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(74, 112, 169, 0.15);
+  padding: 24px;
+}
+
+@media (min-width: 640px) {
+  .form-card {
+    padding: 40px;
+  }
+}
+
+.light-bg {
+  background-color: #f8f9fa;
+}
+
+.text-section {
+  background: none;
+  border: none;
+  padding: 0;
+}
