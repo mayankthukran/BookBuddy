@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:3001/api/auth/login', {
+      const response = await axios.post('https://book-buddy-sepia.vercel.app/api/auth/login', {
         email,
         password
       });
@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (name, email, password) => {
     try {
-      const response = await axios.post('http://localhost:3001/api/auth/signup', {
+      const response = await axios.post('https://book-buddy-sepia.vercel.app/api/auth/signup', {
         name,
         email,
         password
