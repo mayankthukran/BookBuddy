@@ -49,10 +49,10 @@ const Login = () => {
               </div>
               <div>
                 <h1 className="font-display text-5xl font-bold" style={{color: '#000000'}}>BookBuddy</h1>
-                <p className="text-sm font-medium" style={{color: '#8FABD4'}}>Your Reading Companion</p>
+                <p className="text-sm font-medium" style={{color: '#4A70A9'}}>Your Reading Companion</p>
               </div>
             </div>
-            <h2 className="font-display text-4xl font-semibold mb-6 animate-fade-in" style={{color: '#4A70A9'}}>
+            <h2 className="font-display text-4xl font-semibold mb-6 animate-fade-in" style={{color: '#000000'}}>
               Welcome Back!
             </h2>
             <p className="text-lg leading-relaxed mb-8 animate-fade-in" style={{color: '#4A70A9'}}>

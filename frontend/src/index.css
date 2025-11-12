@@ -186,7 +186,7 @@ body {
 }
 
 .light-bg {
-  background-color: #f8f9fa;
+  background-color: var(--cream);
 }
 
 .text-section {

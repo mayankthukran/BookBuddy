@@ -17,8 +17,11 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
+    const userData = localStorage.getItem('user');
+    
+    if (token && userData) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      setUser(JSON.parse(userData));
     }
     setLoading(false);
   }, []);
@@ -32,6 +35,7 @@ export const AuthProvider = ({ children }) => {
       
       const { token, user } = response.data;
       localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(user);
       
@@ -54,6 +58,7 @@ export const AuthProvider = ({ children }) => {
       
       const { token, user } = response.data;
       localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(user);
       
@@ -68,6 +73,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     delete axios.defaults.headers.common['Authorization'];
     setUser(null);
   };
