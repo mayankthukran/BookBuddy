@@ -1,17 +1,8 @@
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { FaBook, FaStar, FaChartLine, FaPlus, FaSearch, FaSignOutAlt, FaBookOpen, FaHeart, FaClock, FaUsers, FaLightbulb, FaBookmark, FaBars, FaTimes } from 'react-icons/fa';
-import { useState } from 'react';
+import { FaBook, FaStar, FaChartLine, FaPlus, FaSearch, FaBookOpen, FaHeart, FaClock, FaUsers, FaLightbulb, FaBookmark } from 'react-icons/fa';
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const { user } = useAuth();
 
   const stats = [
     { label: 'Books Read', value: '24', icon: FaBookOpen, color: '#4A70A9' },
@@ -28,70 +19,6 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen light-bg">
-      {/* Navigation */}
-      <nav className="bg-white border-b-2 border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            {/* Logo */}
-            <div className="flex items-center space-x-3 animate-fade-in">
-              <div className="h-10 w-10 rounded-xl flex items-center justify-center hover-lift" style={{backgroundColor: '#4A70A9'}}>
-                <FaBook className="text-white text-lg animate-float" />
-              </div>
-              <h1 className="font-display text-xl sm:text-2xl font-bold" style={{color: '#000000'}}>
-                BookBuddy
-              </h1>
-            </div>
-
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-4 animate-fade-in">
-              <div className="text-right">
-                <p className="text-sm" style={{color: '#4A70A9'}}>Welcome back,</p>
-                <p className="font-semibold" style={{color: '#000000'}}>{user?.name}</p>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-2 px-4 py-2 rounded-lg font-semibold text-white hover:opacity-90 transition-all duration-200"
-                style={{backgroundColor: '#8FABD4'}}
-              >
-                <FaSignOutAlt />
-                <span>Logout</span>
-              </button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-lg"
-                style={{color: '#000000'}}
-              >
-                {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="md:hidden border-t border-gray-200 py-4 animate-fade-in">
-              <div className="flex flex-col space-y-4">
-                <div className="text-center">
-                  <p className="text-sm" style={{color: '#4A70A9'}}>Welcome back,</p>
-                  <p className="font-semibold" style={{color: '#000000'}}>{user?.name}</p>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center justify-center space-x-2 px-4 py-2 rounded-lg font-semibold text-white mx-4"
-                  style={{backgroundColor: '#8FABD4'}}
-                >
-                  <FaSignOutAlt />
-                  <span>Logout</span>
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
-
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-6 sm:py-8 px-4 sm:px-6 lg:px-8">
         {/* Welcome Section */}
