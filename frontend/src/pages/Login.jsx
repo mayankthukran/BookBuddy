@@ -1,32 +1,45 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FaBook, FaStar, FaChartLine, FaEnvelope, FaLock, FaArrowRight } from 'react-icons/fa';
+import { Form, Input, Button, Card, Typography, Row, Col, Avatar, Space, Alert } from 'antd';
+import { BookOutlined, StarOutlined, BarChartOutlined, MailOutlined, LockOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { motion } from 'framer-motion';
+
+const { Title, Text } = Typography;
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  const onFinish = async (values) => {
     setError('');
     setLoading(true);
 
-    const result = await login(formData.email, formData.password);
+    const result = await login(values.email, values.password);
     
     if (result.success) {
       navigate('/dashboard');
@@ -37,153 +50,212 @@ const Login = () => {
     setLoading(false);
   };
 
+  const features = [
+    {
+      icon: BookOutlined,
+      title: 'Smart Library Management',
+      description: 'Organize and track your entire reading collection',
+      color: '#8FABD4'
+    },
+    {
+      icon: StarOutlined,
+      title: 'AI Recommendations',
+      description: 'Discover your next favorite book with smart suggestions',
+      color: '#8FABD4'
+    },
+    {
+      icon: BarChartOutlined,
+      title: 'Reading Analytics',
+      description: 'Track progress and achieve your reading goals',
+      color: '#8FABD4'
+    }
+  ];
+
   return (
-    <div className="min-h-screen light-bg flex flex-col lg:flex-row">
-      {/* Left Side - Text Content (Hidden on mobile) */}
-      <div className="hidden lg:flex flex-1 items-center justify-center p-12">
-        <div className="max-w-lg text-section animate-slide-in">
-          <div className="mb-10">
-            <div className="flex items-center mb-8 animate-bounce-in">
-              <div className="h-16 w-16 rounded-2xl flex items-center justify-center mr-4 hover-lift" style={{backgroundColor: '#4A70A9'}}>
-                <FaBook className="text-2xl text-white animate-float" />
-              </div>
-              <div>
-                <h1 className="font-display text-5xl font-bold" style={{color: '#000000'}}>BookBuddy</h1>
-                <p className="text-sm font-medium" style={{color: '#4A70A9'}}>Your Reading Companion</p>
-              </div>
-            </div>
-            <h2 className="font-display text-4xl font-semibold mb-6 animate-fade-in" style={{color: '#000000'}}>
-              Welcome Back!
-            </h2>
-            <p className="text-lg leading-relaxed mb-8 animate-fade-in" style={{color: '#4A70A9'}}>
-              Continue your reading journey with personalized book tracking, 
-              AI-powered recommendations, and detailed progress analytics.
-            </p>
-          </div>
-          
-          <div className="space-y-6 animate-fade-in">
-            <div className="flex items-center hover-lift p-4 rounded-lg transition-all duration-300">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style={{backgroundColor: '#8FABD4'}}>
-                <FaBook className="text-xl text-white" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-lg" style={{color: '#000000'}}>Smart Library Management</h4>
-                <p className="text-sm" style={{color: '#4A70A9'}}>Organize and track your entire reading collection</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center hover-lift p-4 rounded-lg transition-all duration-300">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style={{backgroundColor: '#8FABD4'}}>
-                <FaStar className="text-xl text-white" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-lg" style={{color: '#000000'}}>AI Recommendations</h4>
-                <p className="text-sm" style={{color: '#4A70A9'}}>Discover your next favorite book with smart suggestions</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center hover-lift p-4 rounded-lg transition-all duration-300">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style={{backgroundColor: '#8FABD4'}}>
-                <FaChartLine className="text-xl text-white" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-lg" style={{color: '#000000'}}>Reading Analytics</h4>
-                <p className="text-sm" style={{color: '#4A70A9'}}>Track progress and achieve your reading goals</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Side - Form Card */}
-      <div className="flex-1 flex items-center justify-center p-4 sm:p-8 lg:p-12">
-        <div className="w-full max-w-lg">
-          {/* Mobile Header */}
-          <div className="lg:hidden text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="h-12 w-12 rounded-xl flex items-center justify-center mr-3" style={{backgroundColor: '#4A70A9'}}>
-                <FaBook className="text-xl text-white" />
-              </div>
-              <h1 className="font-display text-3xl font-bold" style={{color: '#000000'}}>BookBuddy</h1>
-            </div>
-          </div>
-
-          <div className="form-card animate-fade-in">
-            <div className="text-center mb-8 animate-bounce-in">
-              <h3 className="font-display text-2xl sm:text-3xl font-bold mb-3" style={{color: '#000000'}}>
-                Sign In
-              </h3>
-              <p className="text-base sm:text-lg" style={{color: '#4A70A9'}}>Access your personal reading dashboard</p>
-            </div>
-
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              {error && (
-                <div className="bg-red-50 border-l-4 border-red-400 text-red-700 px-4 sm:px-6 py-4 rounded-xl animate-fade-in">
-                  <span>{error}</span>
+    <motion.div 
+      className="min-h-screen light-bg"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <Row className="min-h-screen">
+        {/* Left Side - Text Content (Hidden on mobile) */}
+        <Col xs={0} lg={12} className="flex items-center justify-center p-12">
+          <motion.div variants={itemVariants} className="max-w-lg">
+            <Space direction="vertical" size="large" style={{width: '100%'}}>
+              <div className="flex items-center mb-8">
+                <Avatar 
+                  size={64} 
+                  style={{backgroundColor: '#4A70A9', borderRadius: 16, marginRight: 16}}
+                  icon={<BookOutlined style={{fontSize: 24}} />}
+                />
+                <div>
+                  <Title level={1} className="font-display" style={{color: '#000000', margin: 0}}>
+                    BookBuddy
+                  </Title>
+                  <Text style={{color: '#4A70A9'}}>Your Reading Companion</Text>
                 </div>
-              )}
-              
-              <div className="input-group">
-                <FaEnvelope className="input-icon text-lg" />
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  className="theme-input w-full"
-                  placeholder="Enter your email address"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
               </div>
               
-              <div className="input-group">
-                <FaLock className="input-icon text-lg" />
-                <input
-                  name="password"
-                  type="password"
-                  required
-                  className="theme-input w-full"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="theme-button w-full py-3 sm:py-4 text-base sm:text-lg font-semibold flex items-center justify-center space-x-3 group"
-              >
-                {loading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-white"></div>
-                    <span>Signing you in...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Sign In to BookBuddy</span>
-                    <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
-                  </>
-                )}
-              </button>
-
-              <div className="text-center pt-6">
-                <p className="text-base sm:text-lg" style={{color: '#4A70A9'}}>
-                  New to BookBuddy?{' '}
-                  <Link 
-                    to="/signup" 
-                    className="font-bold hover:underline transition-all duration-300" 
-                    style={{color: '#000000'}}
+              <Title level={2} className="font-display" style={{color: '#000000'}}>
+                Welcome Back!
+              </Title>
+              
+              <Text style={{fontSize: '16px', color: '#4A70A9'}}>
+                Continue your reading journey with personalized book tracking, 
+                AI-powered recommendations, and detailed progress analytics.
+              </Text>
+              
+              <Space direction="vertical" size="middle" style={{width: '100%'}}>
+                {features.map((feature, index) => (
+                  <motion.div 
+                    key={index}
+                    variants={itemVariants}
+                    className="flex items-center p-4 rounded-lg hover:bg-gray-50 transition-all duration-300"
                   >
-                    Create your account →
-                  </Link>
-                </p>
+                    <Avatar 
+                      size={48} 
+                      style={{backgroundColor: feature.color, marginRight: 16}}
+                      icon={<feature.icon />}
+                    />
+                    <div>
+                      <Title level={5} style={{color: '#000000', margin: 0}}>
+                        {feature.title}
+                      </Title>
+                      <Text style={{color: '#4A70A9', fontSize: '14px'}}>
+                        {feature.description}
+                      </Text>
+                    </div>
+                  </motion.div>
+                ))}
+              </Space>
+            </Space>
+          </motion.div>
+        </Col>
+
+        {/* Right Side - Form Card */}
+        <Col xs={24} lg={12} className="flex items-center justify-center p-4 sm:p-8 lg:p-12">
+          <motion.div variants={itemVariants} className="w-full max-w-lg">
+            {/* Mobile Header */}
+            <div className="lg:hidden text-center mb-8">
+              <Space>
+                <Avatar 
+                  size={48} 
+                  style={{backgroundColor: '#4A70A9', borderRadius: 12}}
+                  icon={<BookOutlined />}
+                />
+                <Title level={2} className="font-display" style={{color: '#000000', margin: 0}}>
+                  BookBuddy
+                </Title>
+              </Space>
+            </div>
+
+            <Card
+              style={{
+                borderColor: '#8FABD4',
+                borderWidth: 2,
+                borderRadius: 20,
+                boxShadow: '0 10px 30px rgba(74, 112, 169, 0.15)'
+              }}
+            >
+              <div className="text-center mb-8">
+                <Title level={2} className="font-display" style={{color: '#000000'}}>
+                  Sign In
+                </Title>
+                <Text style={{color: '#4A70A9', fontSize: '16px'}}>
+                  Access your personal reading dashboard
+                </Text>
               </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+
+              <Form
+                name="login"
+                onFinish={onFinish}
+                layout="vertical"
+                size="large"
+              >
+                {error && (
+                  <Alert
+                    message={error}
+                    type="error"
+                    showIcon
+                    style={{marginBottom: 24}}
+                  />
+                )}
+                
+                <Form.Item
+                  name="email"
+                  rules={[
+                    { required: true, message: 'Please input your email!' },
+                    { type: 'email', message: 'Please enter a valid email!' }
+                  ]}
+                >
+                  <Input
+                    prefix={<MailOutlined style={{color: '#8FABD4'}} />}
+                    placeholder="Enter your email address"
+                    style={{
+                      borderColor: '#8FABD4',
+                      borderRadius: 12,
+                      padding: '12px 16px'
+                    }}
+                  />
+                </Form.Item>
+                
+                <Form.Item
+                  name="password"
+                  rules={[{ required: true, message: 'Please input your password!' }]}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined style={{color: '#8FABD4'}} />}
+                    placeholder="Enter your password"
+                    style={{
+                      borderColor: '#8FABD4',
+                      borderRadius: 12,
+                      padding: '12px 16px'
+                    }}
+                  />
+                </Form.Item>
+
+                <Form.Item>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={loading}
+                    block
+                    size="large"
+                    icon={<ArrowRightOutlined />}
+                    style={{
+                      backgroundColor: '#4A70A9',
+                      borderColor: '#4A70A9',
+                      borderRadius: 8,
+                      height: 48,
+                      fontSize: '16px'
+                    }}
+                  >
+                    {loading ? 'Signing you in...' : 'Sign In to BookBuddy'}
+                  </Button>
+                </Form.Item>
+
+                <div className="text-center pt-6">
+                  <Text style={{color: '#4A70A9', fontSize: '16px'}}>
+                    New to BookBuddy?{' '}
+                    <Link 
+                      to="/signup" 
+                      style={{
+                        color: '#000000',
+                        fontWeight: 'bold',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      Create your account →
+                    </Link>
+                  </Text>
+                </div>
+              </Form>
+            </Card>
+          </motion.div>
+        </Col>
+      </Row>
+    </motion.div>
   );
 };
 

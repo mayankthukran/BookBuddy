@@ -1,101 +1,256 @@
 import { Link } from 'react-router-dom';
-import { FaBook, FaHeart, FaTwitter, FaFacebook, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { 
+  Row, 
+  Col, 
+  Typography, 
+  Space, 
+  Divider 
+} from 'antd';
+import { 
+  BookOutlined,
+  HeartFilled,
+  TwitterOutlined,
+  FacebookOutlined,
+  InstagramOutlined,
+  LinkedinOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  EnvironmentOutlined
+} from '@ant-design/icons';
+
+const { Title, Text } = Typography;
 
 const Footer = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
+  const socialIcons = [
+    { icon: TwitterOutlined, href: '#' },
+    { icon: FacebookOutlined, href: '#' },
+    { icon: InstagramOutlined, href: '#' },
+    { icon: LinkedinOutlined, href: '#' }
+  ];
+
   return (
-    <footer className="py-16 px-4 sm:px-6 lg:px-8" style={{backgroundColor: '#000000'}}>
+    <motion.footer 
+      className="py-16 px-4 sm:px-6 lg:px-8" 
+      style={{backgroundColor: '#000000'}}
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+    >
       <div className="max-w-7xl mx-auto">
         {/* Main Footer Content */}
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
+        <Row gutter={[32, 32]} style={{marginBottom: 48}}>
           {/* Brand Section */}
-          <div className="md:col-span-1">
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="h-12 w-12 rounded-xl flex items-center justify-center" style={{backgroundColor: '#4A70A9'}}>
-                <FaBook className="text-white text-xl" />
-              </div>
-              <h1 className="font-display text-2xl font-bold text-white">
-                BookBuddy
-              </h1>
-            </div>
-            <p className="text-gray-400 mb-6 leading-relaxed">
-              Your personal reading companion. Track progress, discover new books, and connect with fellow readers.
-            </p>
-            <div className="flex space-x-4">
-              <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style={{backgroundColor: '#4A70A9'}}>
-                <FaTwitter className="text-white" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style={{backgroundColor: '#4A70A9'}}>
-                <FaFacebook className="text-white" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style={{backgroundColor: '#4A70A9'}}>
-                <FaInstagram className="text-white" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity" style={{backgroundColor: '#4A70A9'}}>
-                <FaLinkedin className="text-white" />
-              </a>
-            </div>
-          </div>
+          <Col xs={24} md={6}>
+            <motion.div variants={itemVariants}>
+              <Space align="center" style={{marginBottom: 16}}>
+                <div 
+                  className="h-12 w-12 rounded-xl flex items-center justify-center" 
+                  style={{backgroundColor: '#4A70A9'}}
+                >
+                  <BookOutlined className="text-white text-xl" />
+                </div>
+                <Title 
+                  level={2} 
+                  className="font-display" 
+                  style={{color: 'white', margin: 0}}
+                >
+                  BookBuddy
+                </Title>
+              </Space>
+              <Text 
+                style={{
+                  color: '#9CA3AF', 
+                  display: 'block', 
+                  marginBottom: 24,
+                  lineHeight: 1.6
+                }}
+              >
+                Your personal reading companion. Track progress, discover new books, and connect with fellow readers.
+              </Text>
+              <Space size="middle">
+                {socialIcons.map((social, index) => (
+                  <motion.a
+                    key={index}
+                    href={social.href}
+                    className="w-10 h-10 rounded-full flex items-center justify-center"
+                    style={{backgroundColor: '#4A70A9'}}
+                    whileHover={{ scale: 1.1, opacity: 0.8 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <social.icon className="text-white" />
+                  </motion.a>
+                ))}
+              </Space>
+            </motion.div>
+          </Col>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="text-white font-semibold text-lg mb-4">Quick Links</h3>
-            <ul className="space-y-3">
-              <li><Link to="/" className="text-gray-400 hover:text-white transition-colors">Home</Link></li>
-              <li><Link to="/dashboard" className="text-gray-400 hover:text-white transition-colors">Dashboard</Link></li>
-              <li><Link to="/my-books" className="text-gray-400 hover:text-white transition-colors">My Books</Link></li>
-              <li><Link to="/recommendations" className="text-gray-400 hover:text-white transition-colors">Recommendations</Link></li>
-              <li><Link to="/profile" className="text-gray-400 hover:text-white transition-colors">Profile</Link></li>
-            </ul>
-          </div>
+          <Col xs={24} md={6}>
+            <motion.div variants={itemVariants}>
+              <Title level={4} style={{color: 'white', marginBottom: 16}}>
+                Quick Links
+              </Title>
+              <Space direction="vertical" size="middle">
+                {[
+                  { to: '/', label: 'Home' },
+                  { to: '/dashboard', label: 'Dashboard' },
+                  { to: '/my-books', label: 'My Books' },
+                  { to: '/recommendations', label: 'Recommendations' },
+                  { to: '/profile', label: 'Profile' }
+                ].map((link, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ x: 5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <Link 
+                      to={link.to} 
+                      style={{
+                        color: '#9CA3AF',
+                        textDecoration: 'none',
+                        transition: 'color 0.3s'
+                      }}
+                      onMouseEnter={(e) => e.target.style.color = 'white'}
+                      onMouseLeave={(e) => e.target.style.color = '#9CA3AF'}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                ))}
+              </Space>
+            </motion.div>
+          </Col>
 
           {/* Account */}
-          <div>
-            <h3 className="text-white font-semibold text-lg mb-4">Account</h3>
-            <ul className="space-y-3">
-              <li><Link to="/login" className="text-gray-400 hover:text-white transition-colors">Sign In</Link></li>
-              <li><Link to="/signup" className="text-gray-400 hover:text-white transition-colors">Create Account</Link></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
-            </ul>
-          </div>
+          <Col xs={24} md={6}>
+            <motion.div variants={itemVariants}>
+              <Title level={4} style={{color: 'white', marginBottom: 16}}>
+                Account
+              </Title>
+              <Space direction="vertical" size="middle">
+                {[
+                  { to: '/login', label: 'Sign In' },
+                  { to: '/signup', label: 'Create Account' },
+                  { href: '#', label: 'Privacy Policy' },
+                  { href: '#', label: 'Terms of Service' },
+                  { href: '#', label: 'Help Center' }
+                ].map((link, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ x: 5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    {link.to ? (
+                      <Link 
+                        to={link.to} 
+                        style={{
+                          color: '#9CA3AF',
+                          textDecoration: 'none',
+                          transition: 'color 0.3s'
+                        }}
+                        onMouseEnter={(e) => e.target.style.color = 'white'}
+                        onMouseLeave={(e) => e.target.style.color = '#9CA3AF'}
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a 
+                        href={link.href} 
+                        style={{
+                          color: '#9CA3AF',
+                          textDecoration: 'none',
+                          transition: 'color 0.3s'
+                        }}
+                        onMouseEnter={(e) => e.target.style.color = 'white'}
+                        onMouseLeave={(e) => e.target.style.color = '#9CA3AF'}
+                      >
+                        {link.label}
+                      </a>
+                    )}
+                  </motion.div>
+                ))}
+              </Space>
+            </motion.div>
+          </Col>
 
           {/* Contact */}
-          <div>
-            <h3 className="text-white font-semibold text-lg mb-4">Contact Us</h3>
-            <ul className="space-y-3">
-              <li className="flex items-center space-x-3 text-gray-400">
-                <FaEnvelope className="text-sm" />
-                <span>hello@bookbuddy.com</span>
-              </li>
-              <li className="flex items-center space-x-3 text-gray-400">
-                <FaPhone className="text-sm" />
-                <span>+1 (555) 123-4567</span>
-              </li>
-              <li className="flex items-start space-x-3 text-gray-400">
-                <FaMapMarkerAlt className="text-sm mt-1" />
-                <span>123 Reading Street<br />Book City, BC 12345</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+          <Col xs={24} md={6}>
+            <motion.div variants={itemVariants}>
+              <Title level={4} style={{color: 'white', marginBottom: 16}}>
+                Contact Us
+              </Title>
+              <Space direction="vertical" size="middle">
+                <div className="flex items-center space-x-3">
+                  <MailOutlined style={{color: '#9CA3AF'}} />
+                  <Text style={{color: '#9CA3AF'}}>hello@bookbuddy.com</Text>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <PhoneOutlined style={{color: '#9CA3AF'}} />
+                  <Text style={{color: '#9CA3AF'}}>+1 (555) 123-4567</Text>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <EnvironmentOutlined style={{color: '#9CA3AF', marginTop: 4}} />
+                  <Text style={{color: '#9CA3AF'}}>
+                    123 Reading Street<br />Book City, BC 12345
+                  </Text>
+                </div>
+              </Space>
+            </motion.div>
+          </Col>
+        </Row>
         
         {/* Bottom Section */}
-        <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 mb-4 md:mb-0">
-              &copy; 2024 BookBuddy. All rights reserved. Made with <FaHeart className="inline text-red-500 mx-1" /> for book lovers worldwide.
-            </p>
-            <div className="flex space-x-6 text-gray-400">
-              <a href="#" className="hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms</a>
-              <a href="#" className="hover:text-white transition-colors">Cookies</a>
-              <a href="#" className="hover:text-white transition-colors">Support</a>
-            </div>
-          </div>
-        </div>
+        <Divider style={{borderColor: '#374151', margin: '32px 0'}} />
+        <motion.div variants={itemVariants}>
+          <Row justify="space-between" align="middle" gutter={[16, 16]}>
+            <Col xs={24} md={12}>
+              <Text style={{color: '#9CA3AF'}}>
+                &copy; 2024 BookBuddy. All rights reserved. Made with{' '}
+                <HeartFilled style={{color: '#EF4444', margin: '0 4px'}} />{' '}
+                for book lovers worldwide.
+              </Text>
+            </Col>
+            <Col xs={24} md={12}>
+              <div className="flex justify-start md:justify-end">
+                <Space size="large">
+                  {['Privacy', 'Terms', 'Cookies', 'Support'].map((item, index) => (
+                    <motion.a
+                      key={index}
+                      href="#"
+                      style={{
+                        color: '#9CA3AF',
+                        textDecoration: 'none',
+                        transition: 'color 0.3s'
+                      }}
+                      whileHover={{ color: 'white' }}
+                    >
+                      {item}
+                    </motion.a>
+                  ))}
+                </Space>
+              </div>
+            </Col>
+          </Row>
+        </motion.div>
       </div>
-    </footer>
+    </motion.footer>
   );
 };
 
