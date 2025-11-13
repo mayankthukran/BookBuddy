@@ -151,7 +151,7 @@ const Home = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="form-card p-6 text-center">
               <img 
-                src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" 
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" 
                 alt="Sarah Johnson"
                 className="w-16 h-16 rounded-full mx-auto mb-4 object-cover"
               />
