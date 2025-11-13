@@ -62,7 +62,7 @@ const Header = () => {
       >
         <div className="max-w-7xl mx-auto flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center" style={{gap: '12px'}}>
             <Avatar 
               size={40} 
               style={{backgroundColor: '#4A70A9', borderRadius: 12}}
@@ -78,7 +78,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center ">
             <Menu
               mode="horizontal"
               selectedKeys={[location.pathname]}
@@ -87,6 +87,8 @@ const Header = () => {
                 border: 'none',
                 fontSize: '16px'
               }}
+              // overflowedIndicator={null}
+              disabledOverflow
               items={navItems.map(item => ({
                 ...item,
                 label: <Link to={item.key}>{item.label}</Link>
