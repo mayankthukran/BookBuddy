@@ -194,27 +194,43 @@ const MyBooks = () => {
 
   return (
     <motion.div 
-      className="min-h-screen py-8" 
-      style={{backgroundColor: '#EFECE3'}}
+      className="min-h-screen py-8 relative" 
+      style={{
+        backgroundImage: 'url("https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+      <div className="absolute inset-0 bg-white/85" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header Section */}
         <motion.div variants={itemVariants} className="mb-8">
           <Row gutter={[24, 24]} align="middle">
-            <Col xs={24} lg={12}>
-              <div>
-                <Title level={1} className="font-display" style={{color: '#000000', margin: 0}}>
-                  My Library
-                </Title>
-                <Text style={{color: '#4A70A9', fontSize: '18px'}}>
-                  Curate and track your reading journey
-                </Text>
+            <Col xs={24} lg={16}>
+              <div className="flex items-center space-x-4">
+                <Avatar 
+                  size={64} 
+                  icon={<BookOutlined />}
+                  style={{backgroundColor: '#4A70A9'}}
+                />
+                <div>
+                  <Title 
+                    level={2} 
+                    className="font-display"
+                    style={{color: '#000000', margin: 0}}
+                  >
+                    My Personal Library
+                  </Title>
+                  <Text style={{fontSize: '16px', color: '#4A70A9'}}>
+                    Manage your collection and track your reading progress
+                  </Text>
+                </div>
               </div>
             </Col>
-            <Col xs={24} lg={12}>
+            <Col xs={24} lg={8}>
               <div style={{textAlign: 'right'}}>
                 <Space size="middle">
                   <Button 
@@ -222,9 +238,15 @@ const MyBooks = () => {
                     size="large" 
                     icon={<PlusOutlined />}
                     onClick={handleAddBook}
-                    style={{backgroundColor: '#4A70A9', borderColor: '#4A70A9'}}
+                    style={{
+                      backgroundColor: '#4A70A9', 
+                      borderColor: '#4A70A9',
+                      borderRadius: 8,
+                      height: 48,
+                      fontSize: '16px'
+                    }}
                   >
-                    Add Book
+                    Add New Book
                   </Button>
                 </Space>
               </div>
@@ -232,62 +254,68 @@ const MyBooks = () => {
           </Row>
         </motion.div>
 
-        {/* Stats Overview */}
-        <motion.div variants={itemVariants} className="mb-8">
-          <Row gutter={[24, 24]}>
-            <Col xs={12} sm={6}>
-              <Card style={{textAlign: 'center', borderColor: '#8FABD4', borderWidth: 1}}>
+        {/* Key Metrics */}
+        <Row gutter={[24, 24]} className="mb-8">
+          <Col xs={24} sm={12} lg={6}>
+            <motion.div variants={itemVariants}>
+              <Card style={{borderRadius: 16, boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
                 <Statistic
-                  title="Total Books"
+                  title={<Text style={{color: '#666', fontWeight: 500}}>Total Books</Text>}
                   value={pagination.total}
                   prefix={<BookOutlined style={{color: '#4A70A9'}} />}
-                  valueStyle={{color: '#000000', fontWeight: 'bold'}}
+                  valueStyle={{color: '#000', fontSize: '28px', fontWeight: 'bold'}}
                 />
               </Card>
-            </Col>
-            <Col xs={12} sm={6}>
-              <Card style={{textAlign: 'center', borderColor: '#8FABD4', borderWidth: 1}}>
+            </motion.div>
+          </Col>
+          <Col xs={24} sm={12} lg={6}>
+            <motion.div variants={itemVariants}>
+              <Card style={{borderRadius: 16, boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
                 <Statistic
-                  title="Reading"
+                  title={<Text style={{color: '#666', fontWeight: 500}}>Currently Reading</Text>}
                   value={books.filter(b => b.status === 'Reading').length}
                   prefix={<FireOutlined style={{color: '#FF6B35'}} />}
-                  valueStyle={{color: '#000000', fontWeight: 'bold'}}
+                  valueStyle={{color: '#FF6B35', fontSize: '28px', fontWeight: 'bold'}}
                 />
               </Card>
-            </Col>
-            <Col xs={12} sm={6}>
-              <Card style={{textAlign: 'center', borderColor: '#8FABD4', borderWidth: 1}}>
+            </motion.div>
+          </Col>
+          <Col xs={24} sm={12} lg={6}>
+            <motion.div variants={itemVariants}>
+              <Card style={{borderRadius: 16, boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
                 <Statistic
-                  title="Completed"
+                  title={<Text style={{color: '#666', fontWeight: 500}}>Completed</Text>}
                   value={books.filter(b => b.status === 'Completed').length}
                   prefix={<CheckCircleOutlined style={{color: '#52C41A'}} />}
-                  valueStyle={{color: '#000000', fontWeight: 'bold'}}
+                  valueStyle={{color: '#52C41A', fontSize: '28px', fontWeight: 'bold'}}
                 />
               </Card>
-            </Col>
-            <Col xs={12} sm={6}>
-              <Card style={{textAlign: 'center', borderColor: '#8FABD4', borderWidth: 1}}>
+            </motion.div>
+          </Col>
+          <Col xs={24} sm={12} lg={6}>
+            <motion.div variants={itemVariants}>
+              <Card style={{borderRadius: 16, boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}>
                 <Statistic
-                  title="Want to Read"
+                  title={<Text style={{color: '#666', fontWeight: 500}}>Want to Read</Text>}
                   value={books.filter(b => b.status === 'Want to Read').length}
                   prefix={<HeartOutlined style={{color: '#8FABD4'}} />}
-                  valueStyle={{color: '#000000', fontWeight: 'bold'}}
+                  valueStyle={{color: '#8FABD4', fontSize: '28px', fontWeight: 'bold'}}
                 />
               </Card>
-            </Col>
-          </Row>
-        </motion.div>
+            </motion.div>
+          </Col>
+        </Row>
 
         {/* Advanced Filters */}
         <motion.div variants={itemVariants}>
           <Card 
             title={
-              <Space>
+              <div className="flex items-center space-x-2">
                 <FilterOutlined style={{color: '#4A70A9'}} />
-                <Text strong style={{color: '#000000'}}>Filter & Search</Text>
-              </Space>
+                <Title level={5} style={{color: '#000000', margin: 0}}>Search & Filter</Title>
+              </div>
             }
-            style={{marginBottom: 24, borderColor: '#8FABD4', borderWidth: 1, borderRadius: 12}}
+            style={{marginBottom: 24, borderRadius: 16, boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}
           >
             <Row gutter={[16, 16]} align="middle">
               <Col xs={24} md={8}>
@@ -297,7 +325,7 @@ const MyBooks = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   size="large"
-                  style={{borderColor: '#8FABD4'}}
+                  style={{borderRadius: 8, borderColor: '#8FABD4'}}
                 />
               </Col>
               <Col xs={8} md={4}>
@@ -396,13 +424,12 @@ const MyBooks = () => {
                     <Card
                         hoverable
                         style={{
-                          borderColor: '#8FABD4',
-                          borderWidth: 1,
                           borderRadius: 16,
                           height: '100%',
                           overflow: 'hidden',
                           boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                          transition: 'all 0.3s ease'
+                          transition: 'all 0.3s ease',
+                          border: 'none'
                         }}
                       cover={
                         <motion.div 
@@ -603,19 +630,26 @@ const MyBooks = () => {
             </Row>
 
             {/* Pagination */}
-            <div style={{textAlign: 'center', marginTop: 32}}>
-              <Pagination
-                current={pagination.current}
-                pageSize={pagination.pageSize}
-                total={pagination.total}
-                onChange={handlePageChange}
-                showSizeChanger={false}
-                showQuickJumper
-                showTotal={(total, range) => 
-                  `${range[0]}-${range[1]} of ${total} books`
-                }
-              />
-            </div>
+            <motion.div 
+              variants={itemVariants}
+              style={{textAlign: 'center', marginTop: 40}}
+            >
+              <Card style={{borderRadius: 16, boxShadow: '0 4px 12px rgba(0,0,0,0.1)', padding: '16px 0'}}>
+                <Pagination
+                  current={pagination.current}
+                  pageSize={pagination.pageSize}
+                  total={pagination.total}
+                  onChange={handlePageChange}
+                  showSizeChanger={false}
+                  showQuickJumper
+                  showTotal={(total, range) => 
+                    <Text style={{color: '#4A70A9', fontWeight: 500}}>
+                      Showing {range[0]}-{range[1]} of {total} books
+                    </Text>
+                  }
+                />
+              </Card>
+            </motion.div>
           </>
         ) : (
           <motion.div 
@@ -626,10 +660,9 @@ const MyBooks = () => {
           >
             <Card style={{
               textAlign: 'center', 
-              padding: '40px 20px',
-              borderColor: '#8FABD4',
-              borderWidth: 1,
+              padding: '60px 20px',
               borderRadius: 16,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               background: 'linear-gradient(135deg, #EFECE3 0%, #F8F9FA 100%)'
             }}>
               <motion.div
@@ -643,18 +676,18 @@ const MyBooks = () => {
                   ease: "easeInOut"
                 }}
               >
-                <BookOutlined style={{fontSize: 64, color: '#8FABD4', marginBottom: 16}} />
+                <BookOutlined style={{fontSize: 80, color: '#8FABD4', marginBottom: 24}} />
               </motion.div>
-              <Title level={3} style={{color: '#000000', marginBottom: 8}}>
+              <Title level={2} style={{color: '#000000', marginBottom: 16}}>
                 {searchTerm || statusFilter !== 'all' || genreFilter !== 'all' 
                   ? 'No books match your filters' 
-                  : 'Start Your Reading Journey'
+                  : 'Build Your Digital Library'
                 }
               </Title>
-              <Text style={{color: '#4A70A9', fontSize: '16px', display: 'block', marginBottom: 24}}>
+              <Text style={{color: '#4A70A9', fontSize: '18px', display: 'block', marginBottom: 32}}>
                 {searchTerm || statusFilter !== 'all' || genreFilter !== 'all' 
-                  ? 'Try adjusting your search criteria' 
-                  : 'Add your first book to begin tracking your reading progress'
+                  ? 'Try adjusting your search criteria or clear filters' 
+                  : 'Start your reading journey by adding your first book'
                 }
               </Text>
               <motion.div
@@ -669,9 +702,10 @@ const MyBooks = () => {
                   style={{
                     backgroundColor: '#4A70A9', 
                     borderColor: '#4A70A9',
-                    borderRadius: '8px',
-                    height: '48px',
-                    fontSize: '16px'
+                    borderRadius: 8,
+                    height: 56,
+                    fontSize: '18px',
+                    fontWeight: 'bold'
                   }}
                 >
                   Add Your First Book
