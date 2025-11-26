@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Layout, Menu, Button, Avatar, Dropdown, Space, Typography } from 'antd';
@@ -12,6 +12,22 @@ const Header = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [profilePhoto, setProfilePhoto] = useState(null);
+
+  useEffect(() => {
+    const loadProfilePhoto = async () => {
+      if (user) {
+        try {
+          const { userService } = await import('../services/userService');
+          const profile = await userService.getProfile();
+          setProfilePhoto(profile.profilePhoto);
+        } catch (error) {
+          console.error('Error loading profile photo:', error);
+        }
+      }
+    };
+    loadProfilePhoto();
+  }, [user]);
 
   const handleLogout = () => {
     logout();
@@ -96,24 +112,31 @@ const Header = () => {
             />
             
             {user && (
-              <Space>
+              <Space style={{alignItems: 'center'}}>
                 <Dropdown
                   menu={{ items: userMenuItems }}
                   placement="bottomRight"
                 >
                   <Button 
                     type="text" 
-                    style={{padding: 0}}
+                    style={{padding: 0, display: 'flex', alignItems: 'center'}}
                   >
-                    {user.profileImage ? (
+                    {profilePhoto ? (
                       <Avatar 
-                        src={user.profileImage} 
+                        src={profilePhoto} 
                         alt={user.name}
                         size={32}
+                        style={{
+                          border: '2px solid #8FABD4',
+                          objectFit: 'cover'
+                        }}
                       />
                     ) : (
                       <Avatar 
-                        style={{backgroundColor: '#4A70A9'}}
+                        style={{
+                          backgroundColor: '#4A70A9',
+                          border: '2px solid #8FABD4'
+                        }}
                         size={32}
                       >
                         {user.name?.charAt(0).toUpperCase()}

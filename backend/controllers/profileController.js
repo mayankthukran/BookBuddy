@@ -15,6 +15,7 @@ const getProfile = async (req, res) => {
         bio: true,
         favoriteGenres: true,
         readingGoal: true,
+        profilePhoto: true,
         createdAt: true
       }
     });
@@ -23,7 +24,16 @@ const getProfile = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.json(user);
+    // Ensure default values for new fields
+    const userProfile = {
+      ...user,
+      bio: user.bio || null,
+      favoriteGenres: user.favoriteGenres || [],
+      readingGoal: user.readingGoal || 50,
+      profilePhoto: user.profilePhoto || null
+    };
+
+    res.json(userProfile);
   } catch (error) {
     console.error('Get profile error:', error);
     res.status(500).json({ message: 'Server error' });
@@ -33,7 +43,7 @@ const getProfile = async (req, res) => {
 // Update user profile
 const updateProfile = async (req, res) => {
   try {
-    const { name, email, bio, favoriteGenres, readingGoal } = req.body;
+    const { name, email, bio, favoriteGenres, readingGoal, profilePhoto } = req.body;
 
     // Check if email is already taken by another user
     if (email) {
@@ -56,7 +66,8 @@ const updateProfile = async (req, res) => {
         ...(email && { email }),
         ...(bio !== undefined && { bio }),
         ...(favoriteGenres && { favoriteGenres }),
-        ...(readingGoal !== undefined && { readingGoal })
+        ...(readingGoal !== undefined && { readingGoal }),
+        ...(profilePhoto !== undefined && { profilePhoto })
       },
       select: {
         id: true,
@@ -64,7 +75,8 @@ const updateProfile = async (req, res) => {
         email: true,
         bio: true,
         favoriteGenres: true,
-        readingGoal: true
+        readingGoal: true,
+        profilePhoto: true
       }
     });
 

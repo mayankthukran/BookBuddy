@@ -8,14 +8,18 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  email     String   @unique
-  password  String
-  role      String   @default("user")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  books     Book[]
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  email          String   @unique
+  password       String
+  role           String   @default("user")
+  bio            String?
+  favoriteGenres String[]
+  readingGoal    Int?     @default(50)
+  profilePhoto   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  books          Book[]
 }
 
 model Book {
